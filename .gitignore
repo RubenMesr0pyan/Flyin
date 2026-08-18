@@ -1,0 +1,10 @@
+# Python byte-code cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Mypy cache
+.mypy_cache/
+
+# Pytest cache
+.pytest_cache/
