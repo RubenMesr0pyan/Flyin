@@ -5,9 +5,45 @@ TODO:
 - run the simulation, print the turn log in the required format
 """
 
+import sys
+
+from fly_in.parser import MapParseError, MapParser
+
 
 def main() -> None:
-    raise NotImplementedError("Wire the pipeline together here.")
+    """Parse and display a Fly-in map."""
+    if len(sys.argv) != 2:
+        print("Usage: python main.py <map_file>")
+        return
+
+    filename = sys.argv[1]
+
+    try:
+        parsed_map = MapParser().parse(filename)
+    except MapParseError as exc:
+        print(f"Error: {exc}")
+        return
+    except OSError as exc:
+        print(f"Error: cannot open map file: {exc}")
+        return
+
+    graph = parsed_map.graph
+
+    print(f"Drones: {parsed_map.nb_drones}")
+    print(f"Start: {parsed_map.start_hub}")
+    print(f"End: {parsed_map.end_hub}")
+    print(f"Zones: {graph.zone_count()}")
+    print(f"Connections: {graph.connection_count()}")
+
+    print("\nNeighbors:")
+    for zone_name in (
+        parsed_map.start_hub,
+        parsed_map.end_hub,
+    ):
+        print(
+            f"  {zone_name}: "
+            f"{graph.neighbors(zone_name)}"
+        )
 
 
 if __name__ == "__main__":
