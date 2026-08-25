@@ -1,7 +1,6 @@
 import pytest
 
-from parser import MapParseError, MapParser
-
+from fly_in.parser import MapParseError, MapParser
 
 def write_map(
     tmp_path: object,

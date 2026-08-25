@@ -1,0 +1,13 @@
+nb_drones: 1
+start_hub: s 0 0
+end_hub: e 3 0
+
+hub: mid 1 0 [zone=blocked]
+hub: alt1 1 1
+hub: alt2 2 1
+
+connection: s-mid
+connection: mid-e
+connection: s-alt1
+connection: alt1-alt2
+connection: alt2-e
