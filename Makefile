@@ -4,10 +4,10 @@ install:
 	pip install -r requirements.txt
 
 run:
-	python3 -m fly_in.main $(ARGS)
+	python3 main.py $(ARGS)
 
 debug:
-	python3 -m pdb -m fly_in.main $(ARGS)
+	python3 -m pdb main.py $(ARGS)
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
