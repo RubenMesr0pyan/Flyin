@@ -1,7 +1,0 @@
-nb_drones: 1
-start_hub: s 0 0
-end_hub: e 3 0
-
-hub: island 1 0
-
-connection: s-island

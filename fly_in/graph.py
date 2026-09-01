@@ -1,15 +1,8 @@
 """The Graph: your own adjacency-list based graph structure.
 
 No networkx, no graphlib -- this is the whole point of the project.
-
-TODO (Day 3):
-- Graph class holding zones (dict[str, Zone]) and adjacency info.
-- add_zone(zone), add_connection(connection).
-- neighbors(zone_name) -> list of reachable zone names (respecting the
-  bidirectional nature of connections).
-- Think about how you'll store connection metadata (max_link_capacity)
-  so the simulator can look it up later.
 """
+
 from .models import Connection, Zone
 
 
@@ -131,6 +124,32 @@ class Graph:
             )
 
         return self._adjacency[zone_a][zone_b]
+
+    def all_zones(self) -> dict[str, Zone]:
+        """Return every zone in the graph, keyed by name.
+
+        Returns:
+            A shallow copy of the internal zone mapping -- safe to
+            iterate without risking mutation of the graph's own state.
+        """
+        return dict(self._zones)
+
+    def all_connections(self) -> list[Connection]:
+        """Return every connection in the graph, each listed once.
+
+        Returns:
+            A list of Connection objects (a-b and b-a are the same
+            connection and appear only once).
+        """
+        seen: set[frozenset[str]] = set()
+        result: list[Connection] = []
+        for zone_a, neighbors in self._adjacency.items():
+            for zone_b, connection in neighbors.items():
+                key = frozenset((zone_a, zone_b))
+                if key not in seen:
+                    seen.add(key)
+                    result.append(connection)
+        return result
 
     def has_zone(self, name: str) -> bool:
         """Return whether a zone exists in the graph.

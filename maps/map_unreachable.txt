@@ -1,7 +1,0 @@
-nb_drones: 1
-start_hub: start 0 0
-end_hub: goal 0 0
-
-hub: island 1 0 [zone=normal]
-
-connection: start-island

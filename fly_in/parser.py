@@ -3,13 +3,9 @@
 Reads a Fly-in map file line by line, dispatching on the line's prefix
 (nb_drones: / start_hub: / end_hub: / hub: / connection:), and builds
 a Graph out of it. Enforces every structural rule from subject chapter
-VII.4 (unique start/end, no duplicate connections, valid zone types,
-positive capacities, no dashes/spaces in zone names, etc.), raising
-MapParseError with the offending line number and a clear reason on any
-violation. Structural (existence/uniqueness/capacity) invariants are
-enforced by Graph itself; this module catches its ValueError and
-re-raises as a line-numbered MapParseError.
+VII.4, raising MapParseError with the offending line number and a clear reason.
 """
+
 from dataclasses import dataclass
 
 from .graph import Graph
@@ -28,10 +24,7 @@ class MapParseError(Exception):
         """
         self.line_number = line_number
         self.message = message
-
-        super().__init__(
-            f"Line {line_number}: {message}"
-        )
+        super().__init__(f"Line {line_number}: {message}")
 
 
 @dataclass
@@ -95,7 +88,6 @@ class MapParser:
                                 line_number,
                                 "duplicate nb_drones definition",
                             )
-
                         nb_drones = self._parse_nb_drones(
                             line,
                             line_number,
@@ -107,7 +99,6 @@ class MapParser:
                                 line_number,
                                 "duplicate start_hub definition",
                             )
-
                         zone = self._parse_zone(
                             line,
                             line_number,
@@ -122,7 +113,6 @@ class MapParser:
                                 line_number,
                                 "duplicate end_hub definition",
                             )
-
                         zone = self._parse_zone(
                             line,
                             line_number,
@@ -275,10 +265,6 @@ class MapParser:
 
         max_drones: int | None
         if prefix_name in ("start_hub", "end_hub"):
-            # VII.4: max_drones is ignored on start/end zones -- they
-            # have no capacity limit. We deliberately never look at
-            # metadata["max_drones"] here, so even a malformed value
-            # (e.g. max_drones=-1) correctly causes no error.
             max_drones = None
         else:
             max_drones = self._parse_positive_metadata(
