@@ -368,7 +368,7 @@ class MapVisualizer:
                 progress_bar,
             )
 
-        animation.FuncAnimation(
+        fig.anim = animation.FuncAnimation(
             fig,
             update,
             frames=total_frames + 1,

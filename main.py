@@ -13,8 +13,8 @@ from fly_in.simulator import Simulator
 def main() -> None:
     """Parse, pathfind, simulate and optionally render a Fly-in map."""
     args = sys.argv[1:]
-    visual_mode = "--visual" in args
 
+    visual_mode = "--visual" in args
     if visual_mode:
         args.remove("--visual")
 
@@ -78,30 +78,30 @@ def main() -> None:
     try:
         turns = simulator.run()
 
+        formatter = OutputFormatter()
+        output = formatter.format(turns)
+        print(output)
+
+        print("\n==============================")
+        print("Stats")
+        print("==============================")
+        print(
+            f"Drones Delivered: {parsed_map.nb_drones}"
+        )
+        print(
+            f"Path len:         {len(path_names) - 1} steps"
+        )
+        print(
+            f"Total turns:      {len(turns)}"
+        )
+        print("==============================")
+
         if visual_mode:
             from fly_in.visualizer import MapVisualizer
 
             print("Launching Matplotlib visualizer...")
             visualizer = MapVisualizer(parsed_map, turns)
             visualizer.play()
-        else:
-            formatter = OutputFormatter()
-            output = formatter.format(turns)
-            print(output)
-
-            print("\n==============================")
-            print("Stats")
-            print("==============================")
-            print(
-                f"Drones Delivered: {parsed_map.nb_drones}"
-            )
-            print(
-                f"Path len:         {len(path_names) - 1} steps"
-            )
-            print(
-                f"Total turns:      {len(turns)}"
-            )
-            print("==============================")
 
     except RuntimeError as error:
         print(
