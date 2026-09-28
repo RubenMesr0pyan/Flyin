@@ -7,7 +7,7 @@ Fly-in is an efficient drone routing simulator designed to navigate a fleet of d
 The project includes a `Makefile` to automate environment setup, execution, and testing. 
 
 **1. Installation:**
-Install the required dependencies (requires a virtual environment).
+Install the required dependencies (requires a virtual environment)
 ```bash
 make install
 ```
